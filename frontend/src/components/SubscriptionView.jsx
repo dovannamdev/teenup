@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getSubscriptions, createSubscription, getStudents } from '../api';
 
-export default function SubscriptionView({ onSuccess }) {
+export default function SubscriptionView({ onSuccess, refreshStudents }) {
   const [subs, setSubs] = useState([]);
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ export default function SubscriptionView({ onSuccess }) {
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => { loadData(); }, []);
+  useEffect(() => { loadData(); }, [refreshStudents]);
 
   const handleCreate = async (e) => {
     e.preventDefault();

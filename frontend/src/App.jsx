@@ -13,6 +13,7 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [refreshParents, setRefreshParents] = useState(0);
   const [refreshClasses, setRefreshClasses] = useState(0);
+  const [refreshStudents, setRefreshStudents] = useState(0);
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
@@ -23,6 +24,13 @@ export default function App() {
     showToast(message, type);
     if (type === 'success') {
       setRefreshParents((prev) => prev + 1);
+    }
+  };
+
+  const handleStudentSuccess = (message, type = 'success') => {
+    showToast(message, type);
+    if (type === 'success') {
+      setRefreshStudents((prev) => prev + 1);
     }
   };
 
@@ -58,7 +66,7 @@ export default function App() {
         {activeTab === 0 && (
           <div className="grid-2">
             <ParentForm onSuccess={handleParentSuccess} />
-            <StudentForm onSuccess={showToast} refreshParents={refreshParents} />
+            <StudentForm onSuccess={handleStudentSuccess} refreshParents={refreshParents} />
           </div>
         )}
         {activeTab === 1 && (
@@ -68,11 +76,11 @@ export default function App() {
               <ClassSchedule refreshClasses={refreshClasses} />
             </div>
             <div style={{ marginTop: 'var(--space-8)' }}>
-              <RegisterStudent onSuccess={showToast} refreshClasses={refreshClasses} />
+              <RegisterStudent onSuccess={showToast} refreshClasses={refreshClasses} refreshStudents={refreshStudents} />
             </div>
           </div>
         )}
-        {activeTab === 2 && <SubscriptionView onSuccess={showToast} />}
+        {activeTab === 2 && <SubscriptionView onSuccess={showToast} refreshStudents={refreshStudents} />}
       </main>
 
       {toast && (
