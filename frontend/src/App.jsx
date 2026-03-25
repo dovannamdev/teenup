@@ -10,10 +10,18 @@ const TABS = ['Parents & Students', 'Classes', 'Subscriptions'];
 export default function App() {
   const [activeTab, setActiveTab] = useState(0);
   const [toast, setToast] = useState(null);
+  const [refreshParents, setRefreshParents] = useState(0);
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
+  };
+
+  const handleParentSuccess = (message, type = 'success') => {
+    showToast(message, type);
+    if (type === 'success') {
+      setRefreshParents((prev) => prev + 1);
+    }
   };
 
   return (
@@ -40,8 +48,8 @@ export default function App() {
       <main className="main">
         {activeTab === 0 && (
           <div className="grid-2">
-            <ParentForm onSuccess={showToast} />
-            <StudentForm onSuccess={showToast} />
+            <ParentForm onSuccess={handleParentSuccess} />
+            <StudentForm onSuccess={showToast} refreshParents={refreshParents} />
           </div>
         )}
         {activeTab === 1 && (

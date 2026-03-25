@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createStudent, getParents } from '../api';
 
-export default function StudentForm({ onSuccess }) {
+export default function StudentForm({ onSuccess, refreshParents }) {
   const [form, setForm] = useState({ name: '', dob: '', gender: 'male', current_grade: '', parentId: '' });
   const [parents, setParents] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -9,7 +9,7 @@ export default function StudentForm({ onSuccess }) {
 
   useEffect(() => {
     getParents().then(setParents).catch(() => {});
-  }, []);
+  }, [refreshParents]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
