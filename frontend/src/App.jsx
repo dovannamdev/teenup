@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ParentForm from './components/ParentForm';
 import StudentForm from './components/StudentForm';
+import ClassForm from './components/ClassForm';
 import ClassSchedule from './components/ClassSchedule';
 import RegisterStudent from './components/RegisterStudent';
 import SubscriptionView from './components/SubscriptionView';
@@ -11,6 +12,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState(0);
   const [toast, setToast] = useState(null);
   const [refreshParents, setRefreshParents] = useState(0);
+  const [refreshClasses, setRefreshClasses] = useState(0);
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
@@ -21,6 +23,13 @@ export default function App() {
     showToast(message, type);
     if (type === 'success') {
       setRefreshParents((prev) => prev + 1);
+    }
+  };
+
+  const handleClassSuccess = (message, type = 'success') => {
+    showToast(message, type);
+    if (type === 'success') {
+      setRefreshClasses((prev) => prev + 1);
     }
   };
 
@@ -54,9 +63,12 @@ export default function App() {
         )}
         {activeTab === 1 && (
           <div>
-            <ClassSchedule />
+            <ClassForm onSuccess={handleClassSuccess} />
             <div style={{ marginTop: 'var(--space-8)' }}>
-              <RegisterStudent onSuccess={showToast} />
+              <ClassSchedule refreshClasses={refreshClasses} />
+            </div>
+            <div style={{ marginTop: 'var(--space-8)' }}>
+              <RegisterStudent onSuccess={showToast} refreshClasses={refreshClasses} />
             </div>
           </div>
         )}

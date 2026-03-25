@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getStudents, getClasses, registerStudent as registerApi } from '../api';
 
-export default function RegisterStudent({ onSuccess }) {
+export default function RegisterStudent({ onSuccess, refreshClasses }) {
   const [students, setStudents] = useState([]);
   const [classes, setClasses] = useState([]);
   const [studentId, setStudentId] = useState('');
@@ -12,7 +12,7 @@ export default function RegisterStudent({ onSuccess }) {
   useEffect(() => {
     getStudents().then(setStudents).catch(() => {});
     getClasses().then(setClasses).catch(() => {});
-  }, []);
+  }, [refreshClasses]);
 
   useEffect(() => {
     if (classId) {

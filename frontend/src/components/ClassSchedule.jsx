@@ -3,7 +3,7 @@ import { getClasses } from '../api';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-export default function ClassSchedule() {
+export default function ClassSchedule({ refreshClasses }) {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -12,7 +12,7 @@ export default function ClassSchedule() {
       .then(setClasses)
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, []);
+  }, [refreshClasses]);
 
   if (loading) return <div className="spinner" />;
 
